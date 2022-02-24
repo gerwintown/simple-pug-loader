@@ -97,16 +97,16 @@ module.exports = function (source) {
     /*
      * Catch errors if needed
      */
-
     /*
-     * Add the file where the error occurred as a dependency
+     * Add the file where the error occurred as a dependency when available
+     * Do not add when error unrelated to dependency (error.filename will be undefined
      */
-    loaderContext.addDependency(path.normalize(error.filename));
-
+    if (error.filename) {
+      loaderContext.addDependency(path.normalize(error.filename));
+    }
     loaderContext.callback(error);
     return;
   }
-
   /*
    * Add the runtime dependency
    */
